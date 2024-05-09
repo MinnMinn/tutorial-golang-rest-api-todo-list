@@ -2,7 +2,7 @@ package todostorage
 
 import (
 	"context"
-	todomodel "first-app/module/item/model"
+	todomodel "social-todo-list/model"
 )
 
 func (s *mysqlStorage) DeleteItem(

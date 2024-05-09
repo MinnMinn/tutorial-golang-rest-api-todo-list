@@ -2,14 +2,14 @@ package todostorage
 
 import (
 	"context"
-
-	todomodel "first-app/module/item/model"
+	"social-todo-list/common"
+	todomodel "social-todo-list/model"
 )
 
 func (s *mysqlStorage) ListItem(
 	ctx context.Context,
 	condition map[string]interface{},
-	paging *todomodel.DataPaging,
+	paging *common.Paging,
 ) ([]todomodel.ToDoItem, error) {
 	offset := (paging.Page - 1) * paging.Limit
 

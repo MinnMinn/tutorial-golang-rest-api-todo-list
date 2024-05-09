@@ -2,13 +2,13 @@ package todotrpt
 
 import (
 	"net/http"
+	todobiz "social-todo-list/business"
+	"social-todo-list/common"
+	todostorage "social-todo-list/storage"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-
-	todobiz "first-app/module/item/business"
-	todostorage "first-app/module/item/storage"
 )
 
 func HandleDeleteAnItem(db *gorm.DB) gin.HandlerFunc {
@@ -28,6 +28,6 @@ func HandleDeleteAnItem(db *gorm.DB) gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusOK, gin.H{"data": true})
+		c.JSON(http.StatusOK, common.SimpleSuccessResponse("true"))
 	}
 }

@@ -2,14 +2,14 @@ package todotrpt
 
 import (
 	"net/http"
+	todobiz "social-todo-list/business"
+	"social-todo-list/common"
+	todomodel "social-todo-list/model"
+	todostorage "social-todo-list/storage"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-
-	todobiz "first-app/module/item/business"
-	todomodel "first-app/module/item/model"
-	todostorage "first-app/module/item/storage"
 )
 
 func HandleCreateItem(db *gorm.DB) gin.HandlerFunc {
@@ -33,6 +33,6 @@ func HandleCreateItem(db *gorm.DB) gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusOK, gin.H{"data": dataItem.Id})
+		c.JSON(http.StatusOK, common.SimpleSuccessResponse(dataItem.Id))
 	}
 }

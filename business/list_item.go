@@ -2,14 +2,15 @@ package todobiz
 
 import (
 	"context"
-	todomodel "first-app/module/item/model"
+	"social-todo-list/common"
+	todomodel "social-todo-list/model"
 )
 
 type ListTodoItemStorage interface {
 	ListItem(
 		ctx context.Context,
 		condition map[string]interface{},
-		paging *todomodel.DataPaging,
+		paging *common.Paging,
 	) ([]todomodel.ToDoItem, error)
 }
 
@@ -23,7 +24,7 @@ func NewListToDoItemBiz(store ListTodoItemStorage) *listBiz {
 
 func (biz *listBiz) ListItems(ctx context.Context,
 	condition map[string]interface{},
-	paging *todomodel.DataPaging,
+	paging *common.Paging,
 ) ([]todomodel.ToDoItem, error) {
 	result, err := biz.store.ListItem(ctx, condition, paging)
 
