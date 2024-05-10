@@ -8,7 +8,7 @@ import (
 
 func (s *mysqlStorage) ListItem(
 	ctx context.Context,
-	condition map[string]interface{},
+	filter *todomodel.Filter,
 	paging *common.Paging,
 ) ([]todomodel.ToDoItem, error) {
 	offset := (paging.Page - 1) * paging.Limit
@@ -16,9 +16,10 @@ func (s *mysqlStorage) ListItem(
 	var result []todomodel.ToDoItem
 
 	if err := s.db.Table(todomodel.ToDoItem{}.TableName()).
-		Where(condition).
+		Where(&filter).
 		Count(&paging.Total).
 		Offset(offset).
+		Limit(paging.Limit).
 		Order("id desc").
 		Find(&result).Error; err != nil {
 		return nil, err

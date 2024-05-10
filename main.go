@@ -33,11 +33,11 @@ func main() {
 	{
 		items := v1.Group("/items")
 		{
-			items.POST("/items", todotrpt.HandleCreateItem(db))         // create item
-			items.GET("/items", todotrpt.HandleListItem(db))            // list items
-			items.GET("/items/:id", todotrpt.HandleFindAnItem(db))      // get an item by ID
-			items.PUT("/items/:id", todotrpt.HandleUpdateAnItem(db))    // edit an item by ID
-			items.DELETE("/items/:id", todotrpt.HandleDeleteAnItem(db)) // delete an item by ID
+			items.POST("", todotrpt.HandleCreateItem(db))         // create item
+			items.GET("", todotrpt.HandleListItem(db))            // list items
+			items.GET("/:id", todotrpt.HandleFindAnItem(db))      // get an item by ID
+			items.PUT("/:id", todotrpt.HandleUpdateAnItem(db))    // edit an item by ID
+			items.DELETE("/:id", todotrpt.HandleDeleteAnItem(db)) // delete an item by ID
 		}
 	}
 

@@ -9,7 +9,7 @@ import (
 type ListTodoItemStorage interface {
 	ListItem(
 		ctx context.Context,
-		condition map[string]interface{},
+		filter *todomodel.Filter,
 		paging *common.Paging,
 	) ([]todomodel.ToDoItem, error)
 }
@@ -23,10 +23,10 @@ func NewListToDoItemBiz(store ListTodoItemStorage) *listBiz {
 }
 
 func (biz *listBiz) ListItems(ctx context.Context,
-	condition map[string]interface{},
+	filter *todomodel.Filter,
 	paging *common.Paging,
 ) ([]todomodel.ToDoItem, error) {
-	result, err := biz.store.ListItem(ctx, condition, paging)
+	result, err := biz.store.ListItem(ctx, filter, paging)
 
 	if err != nil {
 		return nil, err
