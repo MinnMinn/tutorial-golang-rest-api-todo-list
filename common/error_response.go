@@ -2,7 +2,9 @@ package common
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
+	"strings"
 )
 
 type ErrorRes struct {
@@ -27,46 +29,6 @@ func NewErrorResponse(root error, msg, log, key string) *ErrorRes {
 	}
 }
 
-func NewFullErrorResponse(statusCode int, root error, msg, log, key string) *ErrorRes {
-	return &ErrorRes{
-		StatusCode: statusCode,
-		RootErr:    root,
-		Message:    msg,
-		Log:        log,
-		Key:        key,
-	}
-}
-
-func NewUnauthorized(root error, msg, log, key string) *ErrorRes {
-	return &ErrorRes{
-		StatusCode: http.StatusUnauthorized,
-		RootErr:    root,
-		Message:    msg,
-		Log:        log,
-		Key:        key,
-	}
-}
-
-func ErrorCannotGetEntity(entity string, root error) *ErrorRes {
-	return &ErrorRes{
-		StatusCode: http.StatusUnauthorized,
-		RootErr:    root,
-		Message:    "Cannot get " + entity,
-		Log:        root.Error(),
-		Key:        "ErrorCannotGetEntity",
-	}
-}
-
-func ErrInternal(root error) *ErrorRes {
-	return &ErrorRes{
-		StatusCode: http.StatusInternalServerError,
-		RootErr:    root,
-		Message:    "Internal error",
-		Log:        root.Error(),
-		Key:        "ErrorInternal",
-	}
-}
-
 func (e *ErrorRes) RootError() error {
 	if err, ok := e.RootErr.(*ErrorRes); ok {
 		return err.RootError()
@@ -79,4 +41,112 @@ func (e *ErrorRes) Error() string {
 	return e.RootError().Error()
 }
 
-var RecordNotFound = errors.New("Record not found")
+func NewFullErrorResponse(statusCode int, root error, msg, log, key string) *ErrorRes {
+	return &ErrorRes{
+		StatusCode: statusCode,
+		RootErr:    root,
+		Message:    msg,
+		Log:        log,
+		Key:        key,
+	}
+}
+
+func NewUnauthorized(root error, msg, key string) *ErrorRes {
+	return &ErrorRes{
+		StatusCode: http.StatusUnauthorized,
+		RootErr:    root,
+		Message:    msg,
+		Key:        key,
+	}
+}
+
+func NewCustomError(root error, msg string, key string) *ErrorRes {
+	if root != nil {
+		return NewErrorResponse(root, msg, root.Error(), key)
+	}
+
+	return NewErrorResponse(errors.New(msg), msg, msg, key)
+}
+
+func ErrInvalidRequest(err error) *ErrorRes {
+	return NewErrorResponse(err, "invalid request", err.Error(), "ErrInvalidRequest")
+}
+
+func ErrInternal(err error) *ErrorRes {
+	return NewFullErrorResponse(http.StatusInternalServerError, err,
+		"something went wrong in the server", err.Error(), "ErrInternal")
+}
+
+func ErrCannotListEntity(entity string, err error) *ErrorRes {
+	return NewCustomError(
+		err,
+		fmt.Sprintf("Cannot list %s", strings.ToLower(entity)),
+		fmt.Sprintf("ErrCannotList%s", entity),
+	)
+}
+
+func ErrCannotDeleteEntity(entity string, err error) *ErrorRes {
+	return NewCustomError(
+		err,
+		fmt.Sprintf("Cannot delete %s", strings.ToLower(entity)),
+		fmt.Sprintf("ErrCannotDelete%s", entity),
+	)
+}
+
+func ErrCannotUpdateEntity(entity string, err error) *ErrorRes {
+	return NewCustomError(
+		err,
+		fmt.Sprintf("Cannot update %s", strings.ToLower(entity)),
+		fmt.Sprintf("ErrCannotUpdate%s", entity),
+	)
+}
+
+func ErrCannotGetEntity(entity string, err error) *ErrorRes {
+	return NewCustomError(
+		err,
+		fmt.Sprintf("Cannot get %s", strings.ToLower(entity)),
+		fmt.Sprintf("ErrCannotGet%s", entity),
+	)
+}
+
+func ErrEntityDeleted(entity string, err error) *ErrorRes {
+	return NewCustomError(
+		err,
+		fmt.Sprintf("%s deleted", strings.ToLower(entity)),
+		fmt.Sprintf("Err%sDeleted", entity),
+	)
+}
+
+func ErrEntityExisted(entity string, err error) *ErrorRes {
+	return NewCustomError(
+		err,
+		fmt.Sprintf("%s already exists", strings.ToLower(entity)),
+		fmt.Sprintf("Err%sAlreadyExists", entity),
+	)
+}
+
+func ErrEntityNotFound(entity string, err error) *ErrorRes {
+	return NewCustomError(
+		err,
+		fmt.Sprintf("%s not found", strings.ToLower(entity)),
+		fmt.Sprintf("Err%sNotFound", entity),
+	)
+}
+
+func ErrCannotCreateEntity(entity string, err error) *ErrorRes {
+	return NewCustomError(
+		err,
+		fmt.Sprintf("Cannot Create %s", strings.ToLower(entity)),
+		fmt.Sprintf("ErrCannotCreate%s", entity),
+	)
+}
+
+func ErrNoPermission(err error) *ErrorRes {
+	return NewCustomError(
+		err,
+		fmt.Sprintf("You have no permission"),
+		fmt.Sprintf("ErrNoPermission"),
+	)
+}
+
+var RecordNotFound = errors.New("record not found")
