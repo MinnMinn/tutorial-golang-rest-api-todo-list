@@ -3,6 +3,7 @@ package todostorage
 import (
 	"context"
 	"errors"
+	"social-todo-list/common"
 	todomodel "social-todo-list/model"
 
 	"gorm.io/gorm"
@@ -19,7 +20,10 @@ func (s *mysqlStorage) FindItem(
 			return nil, todomodel.ErrItemNotFound
 		}
 
-		return nil, err // other errors
+		if err == gorm.ErrRecordNotFound {
+			return nil, common.RecordNotFound
+		}
+		return nil, common.ErrDB(err)
 	}
 
 	return &itemData, nil

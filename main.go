@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"social-todo-list/middleware"
 	todotrpt "social-todo-list/transport"
 
 	"github.com/gin-gonic/gin"
@@ -24,10 +25,13 @@ func main() {
 
 	if err != nil {
 		log.Fatalln("Cannot connect to MySQL:", err)
-		log.Println("DB connection: ", db)
 	}
 
+	log.Println("DB connection: ", db.Debug())
+
 	router := gin.Default()
+	// Response error json when panic
+	router.Use(middleware.Recover())
 
 	v1 := router.Group("/v1")
 	{

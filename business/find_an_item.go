@@ -2,6 +2,7 @@ package todobiz
 
 import (
 	"context"
+	"social-todo-list/common"
 	todomodel "social-todo-list/model"
 )
 
@@ -24,7 +25,7 @@ func (biz *findBiz) FindAnItem(ctx context.Context, condition map[string]interfa
 	itemData, err := biz.store.FindItem(ctx, condition)
 
 	if err != nil {
-		return nil, err
+		return nil, common.ErrorCannotGetEntity("Item", err)
 	}
 
 	return itemData, nil

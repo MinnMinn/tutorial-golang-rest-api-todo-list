@@ -13,9 +13,10 @@ var (
 
 type ToDoItem struct {
 	common.SQLModel
-	Title       string `json:"title" gorm:"column:title;"`
-	Description string `json:"description" gorm:"column:description;"`
-	Status      string `json:"status" gorm:"column:status;"`
+	Title       string        `json:"title" gorm:"column:title;"`
+	Description string        `json:"description" gorm:"column:description;"`
+	Status      string        `json:"status" gorm:"column:status;"`
+	Image       *common.Image `json:"image" gorm:"column:image"`
 }
 
 func (ToDoItem) TableName() string { return "todo_items" }
