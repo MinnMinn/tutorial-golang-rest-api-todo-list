@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"social-todo-list/common"
-	todomodel "social-todo-list/model"
+	"social-todo-list/module/item/model"
 
 	"gorm.io/gorm"
 )

@@ -2,7 +2,7 @@ package todobiz
 
 import (
 	"context"
-	todomodel "social-todo-list/model"
+	"social-todo-list/module/item/model"
 )
 
 type UpdateTodoItemStorage interface {

@@ -2,7 +2,7 @@ package todostorage
 
 import (
 	"context"
-	todomodel "social-todo-list/model"
+	"social-todo-list/module/item/model"
 )
 
 func (s *mysqlStorage) CreateItem(ctx context.Context, data *todomodel.ToDoItem) error {

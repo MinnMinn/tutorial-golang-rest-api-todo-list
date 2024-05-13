@@ -4,10 +4,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
-	todobiz "social-todo-list/business"
 	"social-todo-list/common"
-	todomodel "social-todo-list/model"
-	todostorage "social-todo-list/storage"
+	"social-todo-list/module/item/business"
+	"social-todo-list/module/item/model"
+	"social-todo-list/module/item/storage"
 	"strconv"
 )
 

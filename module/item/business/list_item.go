@@ -3,15 +3,15 @@ package todobiz
 import (
 	"context"
 	"social-todo-list/common"
-	todomodel "social-todo-list/model"
+	todomodel2 "social-todo-list/module/item/model"
 )
 
 type ListTodoItemStorage interface {
 	ListItem(
 		ctx context.Context,
-		filter *todomodel.Filter,
+		filter *todomodel2.Filter,
 		paging *common.Paging,
-	) ([]todomodel.ToDoItem, error)
+	) ([]todomodel2.ToDoItem, error)
 }
 
 type listBiz struct {
@@ -23,9 +23,9 @@ func NewListToDoItemBiz(store ListTodoItemStorage) *listBiz {
 }
 
 func (biz *listBiz) ListItems(ctx context.Context,
-	filter *todomodel.Filter,
+	filter *todomodel2.Filter,
 	paging *common.Paging,
-) ([]todomodel.ToDoItem, error) {
+) ([]todomodel2.ToDoItem, error) {
 	result, err := biz.store.ListItem(ctx, filter, paging)
 
 	if err != nil {

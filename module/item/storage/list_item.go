@@ -3,19 +3,19 @@ package todostorage
 import (
 	"context"
 	"social-todo-list/common"
-	todomodel "social-todo-list/model"
+	todomodel2 "social-todo-list/module/item/model"
 )
 
 func (s *mysqlStorage) ListItem(
 	ctx context.Context,
-	filter *todomodel.Filter,
+	filter *todomodel2.Filter,
 	paging *common.Paging,
-) ([]todomodel.ToDoItem, error) {
+) ([]todomodel2.ToDoItem, error) {
 	offset := (paging.Page - 1) * paging.Limit
 
-	var result []todomodel.ToDoItem
+	var result []todomodel2.ToDoItem
 
-	if err := s.db.Table(todomodel.ToDoItem{}.TableName()).
+	if err := s.db.Table(todomodel2.ToDoItem{}.TableName()).
 		Where(&filter).
 		Count(&paging.Total).
 		Offset(offset).

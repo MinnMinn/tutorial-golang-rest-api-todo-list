@@ -1,14 +1,13 @@
 package todotrpt
 
 import (
-	"net/http"
-	todobiz "social-todo-list/business"
-	"social-todo-list/common"
-	todomodel "social-todo-list/model"
-	todostorage "social-todo-list/storage"
-
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+	"net/http"
+	"social-todo-list/common"
+	"social-todo-list/module/item/business"
+	"social-todo-list/module/item/model"
+	"social-todo-list/module/item/storage"
 )
 
 func HandleListItem(db *gorm.DB) gin.HandlerFunc {

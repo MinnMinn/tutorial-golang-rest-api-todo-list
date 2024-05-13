@@ -2,10 +2,10 @@ package todotrpt
 
 import (
 	"net/http"
-	todobiz "social-todo-list/business"
 	"social-todo-list/common"
-	todomodel "social-todo-list/model"
-	todostorage "social-todo-list/storage"
+	"social-todo-list/module/item/business"
+	"social-todo-list/module/item/model"
+	"social-todo-list/module/item/storage"
 	"strings"
 
 	"github.com/gin-gonic/gin"
